@@ -1,3 +1,16 @@
+<?php
+include __DIR__ . '/data/mobil.php';
+
+function hitungCicilan($price, $dpPercent, $months, $bungaPersen = 20) {
+  $dpNominal = $price * $dpPercent / 100;
+  $bungaNominal = $price * ($bungaPersen / 100);
+  $totalTagihan = ($price + $bungaNominal) - $dpNominal;
+  return $months > 0 ? $totalTagihan / $months : 0;
+}
+function formatRupiah($n) {
+  return 'Rp ' . number_format(round($n), 0, ',', '.');
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -274,12 +287,21 @@
           <label data-i18n="calc.brandLabel" class="text-sm text-zinc-500 font-medium block mb-2">Pilih Merek Mobil</label>
           <select id="brandSelect" class="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 font-semibold text-sm outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 cursor-pointer">
             <option value="" data-i18n="calc.brandDefault">-- Semua Merek --</option>
+            <?php
+              $merekUnik = array_values(array_unique(array_column($cars, 'brand')));
+              foreach ($merekUnik as $merek):
+            ?>
+              <option value="<?= htmlspecialchars($merek) ?>"><?= htmlspecialchars($merek) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div>
           <label data-i18n="calc.modelLabel" class="text-sm text-zinc-500 font-medium block mb-2">Pilih Model Mobil</label>
           <select id="carSelect" class="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 font-semibold text-sm outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 cursor-pointer">
             <option value="" data-i18n="calc.modelDefault">-- Pilih Mobil --</option>
+            <?php foreach ($cars as $car): ?>
+              <option value="<?= htmlspecialchars($car['name']) ?>"><?= htmlspecialchars($car['name']) ?> (<?= formatRupiah($car['price']) ?>)</option>
+            <?php endforeach; ?>
           </select>
         </div>
       </div>
@@ -383,7 +405,25 @@
       <p data-i18n="pop.subtitle" class="text-zinc-500 text-sm mt-2">Klik kartu untuk isi otomatis ke kalkulator, atau centang untuk membandingkan.</p>
     </div>
   </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="carsGrid"></div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="carsGrid">
+  <?php foreach ($cars as $car): ?>
+    <?php $cicilan = hitungCicilan($car['price'], 20, $car['months']); ?>
+    <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+      <div class="relative block w-full aspect-[4/3] overflow-hidden">
+        <img src="<?= htmlspecialchars($car['image']) ?>" alt="<?= htmlspecialchars($car['name']) ?>" class="w-full h-full object-cover">
+        <label class="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur rounded-full pl-2 pr-3 py-1.5 cursor-pointer">
+          <input type="checkbox" class="compare-check accent-zinc-900 dark:accent-zinc-50 w-3.5 h-3.5" data-name="<?= htmlspecialchars($car['name']) ?>">
+          <span class="text-xs font-medium" data-i18n="pop.compare">Bandingkan</span>
+        </label>
+      </div>
+      <button class="fill-calc w-full text-left p-4 block" data-price="<?= $car['price'] ?>" data-months="<?= $car['months'] ?>" data-name="<?= htmlspecialchars($car['name']) ?>">
+        <div class="text-sm font-semibold mb-1"><?= htmlspecialchars($car['name']) ?></div>
+        <div class="text-xs text-zinc-500 mb-2.5"><?= formatRupiah($car['price']) ?> <span data-i18n="pop.otr">OTR</span></div>
+        <div class="text-sm font-bold"><?= formatRupiah($cicilan) ?><span class="text-zinc-400 font-normal" data-i18n="pop.perMonth">/bln</span></div>
+      </button>
+    </div>
+  <?php endforeach; ?>
+  </div>
 </section>
 
 <!-- ============ PROMO BANNER ============ -->
@@ -815,20 +855,7 @@ setInterval(()=> showHeroSlide((heroCurrent+1) % heroSlides.length), 4000);
 /* =========================================================
    DATA MOBIL
 ========================================================= */
-const cars = [
-  { brand:'Honda', name:'Honda Brio', price:220000000, months:36, image:'img/home.jpg' },
-  { brand:'Toyota', name:'Toyota Avanza Veloz', price:280000000, months:36, image:'img/velos.jpg' },
-  { brand:'Daihatsu', name:'Daihatsu Sigra', price:168000000, months:36, image:'img/sigra.jpg' },
-  { brand:'Mitsubishi', name:'Mitsubishi Xforce', price:320000000, months:36, image:'img/mitsubisiforce.jpg' },
-  { brand:'Toyota', name:'Toyota Rush', price:300000000, months:36, image:'img/rush.jpg' },
-  { brand:'Hyundai', name:'Hyundai Creta', price:340000000, months:36, image:'img/hyundaicreta.jpg' },
-  { brand:'Wuling', name:'Wuling Confero', price:210000000, months:36, image:'img/wulingconfero.jpg' },
-  { brand:'BYD', name:'BYD Seal', price:600000000, months:36, image:'img/bydseal.jpg' },
-  { brand:'Toyota', name:'Toyota Innova Zenix', price:430000000, months:36, image:'img/zenix.jpg' },
-  { brand:'Suzuki', name:'Suzuki XL7', price:260000000, months:36, image:'img/XL7.jpg' },
-  { brand:'Daihatsu', name:'Daihatsu Terios', price:290000000, months:36, image:'img/terios.jpg' },
-  { brand:'Nissan', name:'Nissan Magnite', price:250000000, months:36, image:'img/magnite.jpg' },
-];
+const cars = <?php echo json_encode($cars); ?>;
 
 /* =========================================================
    FORMAT HELPERS
@@ -872,7 +899,7 @@ const carSelect = document.getElementById('carSelect');
 const DEFAULTS = { price: 250000000, dpPercent: 20, years: 5, carName: null };
 let state = { ...DEFAULTS };
 
-// Populate Merek
+brandSelect.innerHTML = `<option value="">${t('calc.brandDefault')}</option>`;
 const uniqueBrands = [...new Set(cars.map(c => c.brand))];
 uniqueBrands.forEach(b => {
   const opt = document.createElement('option');
