@@ -73,8 +73,8 @@ function formatRupiah($n) {
 <!-- ============ HEADER ============ -->
 <header class="sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-950/90 backdrop-blur">
   <div class="max-w-7xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between gap-4">
-    <a href="#home" class="flex items-center gap-2 font-display font-bold text-lg shrink-0">
-      <span class="w-2 h-2 rounded-full bg-zinc-900 dark:bg-zinc-50"></span>
+    <a href="#home" class="flex items-center gap-2.5 font-display font-bold text-lg shrink-0">
+      <img src="img/logo.svg" alt="Logo Overdrive" class="w-9 h-9 rounded-xl shrink-0">
       Overdrive
     </a>
 
@@ -242,7 +242,7 @@ function formatRupiah($n) {
         <span class="px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-zinc-600 dark:text-zinc-300">BCA Finance</span>
         <span class="px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-zinc-600 dark:text-zinc-300">Adira Finance</span>
         <span class="px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-zinc-600 dark:text-zinc-300">Mandiri Tunas Finance</span>
-        <span class="px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-zinc-600 dark:text-zinc-300">OJK Terdaftar</span>
+        <span class="px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-zinc-600 dark:text-zinc-300" data-i18n="about.partnerOjk">OJK Terdaftar</span>
       </div>
     </div>
   </div>
@@ -333,22 +333,20 @@ function formatRupiah($n) {
 
       <div class="mb-7">
         <label data-i18n="calc.tenorLabel" class="text-sm text-zinc-500 font-medium block mb-2.5">Tenor (Tahun)</label>
-        <div class="flex gap-4 flex-wrap" id="tenorGroup">
-          <label class="flex items-center gap-2 text-sm font-medium cursor-pointer">
-            <input type="checkbox" class="tenor-check accent-zinc-900 dark:accent-zinc-50 w-4 h-4" data-years="1"> 1 <span data-i18n="calc.tahunUnit">Tahun</span>
-          </label>
-          <label class="flex items-center gap-2 text-sm font-medium cursor-pointer">
-            <input type="checkbox" class="tenor-check accent-zinc-900 dark:accent-zinc-50 w-4 h-4" data-years="2"> 2 <span data-i18n="calc.tahunUnit">Tahun</span>
-          </label>
-          <label class="flex items-center gap-2 text-sm font-medium cursor-pointer">
-            <input type="checkbox" class="tenor-check accent-zinc-900 dark:accent-zinc-50 w-4 h-4" data-years="3"> 3 <span data-i18n="calc.tahunUnit">Tahun</span>
-          </label>
-          <label class="flex items-center gap-2 text-sm font-medium cursor-pointer">
-            <input type="checkbox" class="tenor-check accent-zinc-900 dark:accent-zinc-50 w-4 h-4" data-years="4"> 4 <span data-i18n="calc.tahunUnit">Tahun</span>
-          </label>
-          <label class="flex items-center gap-2 text-sm font-medium cursor-pointer">
-            <input type="checkbox" class="tenor-check accent-zinc-900 dark:accent-zinc-50 w-4 h-4" data-years="5" checked> 5 <span data-i18n="calc.tahunUnit">Tahun</span>
-          </label>
+        <select id="tenorSelect" class="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 font-semibold text-sm outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 cursor-pointer">
+          <option value="" data-i18n="calc.tenorDefault">-- Pilih Tenor --</option>
+          <option value="1">1 Tahun</option>
+          <option value="2">2 Tahun</option>
+          <option value="3">3 Tahun</option>
+          <option value="4">4 Tahun</option>
+          <option value="5" selected>5 Tahun</option>
+        </select>
+        <div class="flex gap-2 flex-wrap mt-3" id="tenorQuick">
+          <button type="button" data-years="1" class="tenor-quick px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">1 Tahun</button>
+          <button type="button" data-years="2" class="tenor-quick px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">2 Tahun</button>
+          <button type="button" data-years="3" class="tenor-quick px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">3 Tahun</button>
+          <button type="button" data-years="4" class="tenor-quick px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">4 Tahun</button>
+          <button type="button" data-years="5" class="tenor-quick px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">5 Tahun</button>
         </div>
       </div>
 
@@ -460,8 +458,8 @@ function formatRupiah($n) {
 <footer id="kontak" class="border-t border-zinc-200 dark:border-zinc-800 mt-4">
   <div class="max-w-7xl mx-auto px-5 md:px-8 py-14 grid md:grid-cols-5 gap-10">
     <div class="md:col-span-2">
-      <div class="flex items-center gap-2 font-display font-bold text-lg mb-3">
-        <span class="w-2 h-2 rounded-full bg-zinc-900 dark:bg-zinc-50"></span>
+      <div class="flex items-center gap-2.5 font-display font-bold text-lg mb-3">
+        <img src="img/logo.svg" alt="Logo Overdrive" class="w-9 h-9 rounded-xl shrink-0">
         Overdrive
       </div>
       <p data-i18n="footer.tagline" class="text-sm text-zinc-500 max-w-xs mb-5">Platform jual beli dan simulasi kredit mobil, motor, serta truk di Indonesia.</p>
@@ -578,6 +576,7 @@ const translations = {
     'about.card2Desc': 'Mulai dari 20% flat per tahun, tanpa biaya tersembunyi.',
     'about.unitCity': 'Jakarta Barat, Indonesia',
     'about.unitPrice': 'Rp280.000.000',
+    'about.partnerOjk': 'OJK Terdaftar',
     'search.placeholder': 'Cari model mobil…',
     'a11y.theme': 'Ganti tema gelap/terang',
     'hero.eyebrow': 'Jual Beli & Simulasi Kredit Kendaraan',
@@ -599,6 +598,7 @@ const translations = {
     'calc.brandDefault': '-- Semua Merek --',
     'calc.modelLabel': 'Pilih Model Mobil',
     'calc.modelDefault': '-- Pilih Mobil --',
+    'calc.tenorDefault': '-- Pilih Tenor --',
     'calc.priceLabel': 'Harga kendaraan (OTR)',
     'calc.dpLabel': 'DP (Persen)',
     'calc.tenorLabel': 'Tenor (Tahun)',
@@ -688,6 +688,7 @@ const translations = {
     'about.card2Desc': 'Starting from 20% flat per year, no hidden fees.',
     'about.unitCity': 'West Jakarta, Indonesia',
     'about.unitPrice': 'Rp280,000,000',
+    'about.partnerOjk': 'OJK Registered',
     'search.placeholder': 'Search car model…',
     'a11y.theme': 'Toggle dark/light theme',
     'hero.eyebrow': 'Buy, Sell & Simulate Vehicle Financing',
@@ -709,6 +710,7 @@ const translations = {
     'calc.brandDefault': '-- All Brands --',
     'calc.modelLabel': 'Select Model',
     'calc.modelDefault': '-- Select a Car --',
+    'calc.tenorDefault': '-- Select Tenor --',
     'calc.priceLabel': 'Vehicle price (OTR)',
     'calc.dpLabel': 'DP (Percent)',
     'calc.tenorLabel': 'Term (Years)',
@@ -883,8 +885,8 @@ function monthlyPayment(price, dpPercent, months){
 const priceSlider = document.getElementById('priceSlider');
 const priceInput = document.getElementById('priceInput');
 const dpSelect = document.getElementById('dpSelect');
-const tenorGroup = document.getElementById('tenorGroup');
-const tenorChecks = document.querySelectorAll('.tenor-check');
+const tenorSelect = document.getElementById('tenorSelect');
+const tenorQuickBtns = document.querySelectorAll('.tenor-quick');
 const resetBtn = document.getElementById('resetBtn');
 const monthlyResult = document.getElementById('monthlyResult');
 const selectedCarLabel = document.getElementById('selectedCarLabel');
@@ -940,8 +942,15 @@ carSelect.addEventListener('change', (e) => {
 });
 
 function setActiveTenor(years){
-  tenorChecks.forEach(chk=>{
-    chk.checked = parseInt(chk.dataset.years,10) === years;
+  tenorSelect.value = years;
+  tenorQuickBtns.forEach(btn=>{
+    const active = parseInt(btn.dataset.years,10) === years;
+    btn.classList.toggle('bg-zinc-900', active);
+    btn.classList.toggle('dark:bg-zinc-50', active);
+    btn.classList.toggle('text-white', active);
+    btn.classList.toggle('dark:text-zinc-900', active);
+    btn.classList.toggle('border-zinc-900', active);
+    btn.classList.toggle('dark:border-zinc-50', active);
   });
 }
 
@@ -991,15 +1000,19 @@ dpSelect.addEventListener('change', ()=>{
   calculate();
 });
 
-// Tenor: hanya boleh satu checkbox aktif, sesuai ketentuan soal
-tenorChecks.forEach(chk=>{
-  chk.addEventListener('change', ()=>{
-    if(chk.checked){
-      tenorChecks.forEach(other=>{ if(other !== chk) other.checked = false; });
-      state.years = parseInt(chk.dataset.years,10);
-    } else {
-      state.years = 0;
-    }
+// Tenor: menggunakan tag select 1-5 tahun, sesuai ketentuan soal
+tenorSelect.addEventListener('change', ()=>{
+  const v = parseInt(tenorSelect.value,10);
+  state.years = v || 0;
+  setActiveTenor(state.years);
+  calculate();
+});
+
+// Tombol cepat tenor: shortcut, tetap sinkron dengan tag select di atasnya
+tenorQuickBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    state.years = parseInt(btn.dataset.years,10);
+    setActiveTenor(state.years);
     calculate();
   });
 });
